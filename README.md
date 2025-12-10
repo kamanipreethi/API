@@ -1,8 +1,8 @@
-# Python Code Execution API 🐍
+# Python Code Execution API 
 
 A secure REST API that executes user-submitted Python code inside isolated Docker containers with built-in security measures.
 
-## 🎯 Project Overview
+##  Project Overview
 
 This project demonstrates how to safely run untrusted Python code by leveraging Docker containerization with security constraints. Users can submit Python code via an API endpoint and receive the execution output.
 
@@ -13,19 +13,19 @@ Body: { "code": "print('Hello World')" }
 Response: { "output": "Hello World" }
 ```
 
-## ✨ Features
+##  Features
 
-- ✅ Execute Python code via REST API
-- ✅ Docker container isolation
-- ✅ Execution timeout (10 seconds)
-- ✅ Memory limit (128MB)
-- ✅ Network isolation (no internet access)
-- ✅ Read-only filesystem
-- ✅ Input validation (max 5000 characters)
-- ✅ Detailed error messages
-- ✅ Simple web UI for testing
+-  Execute Python code via REST API
+-  Docker container isolation
+-  Execution timeout (10 seconds)
+-  Memory limit (128MB)
+-  Network isolation (no internet access)
+-  Read-only filesystem
+-  Input validation (max 5000 characters)
+-  Detailed error messages
+-  Simple web UI for testing
 
-## 🛡️ Security Features
+##  Security Features
 
 ### 1. **Execution Timeout**
 Prevents infinite loops from consuming resources:
@@ -63,7 +63,7 @@ with open("/tmp/test.txt", "w") as f:
 - Validates request format
 - Sanitizes input
 
-## 📋 Prerequisites
+##  Prerequisites
 
 - **Docker** (version 20.10 or higher)
 - **Python** 3.8+ (for running the API)
@@ -85,7 +85,7 @@ Verify installation:
 docker --version
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Clone the Repository
 ```bash
@@ -110,7 +110,7 @@ python app.py
 
 The API will start on `http://localhost:5000`
 
-## 📖 API Documentation
+## API Documentation
 
 ### Endpoint: `POST /run`
 
@@ -169,7 +169,7 @@ fetch('http://localhost:5000/run', {
 .then(data => console.log(data));
 ```
 
-## 🧪 Testing Examples
+##  Testing Examples
 
 ### Test 1: Basic Execution
 ```json
@@ -219,7 +219,7 @@ Expected: Error due to memory limit
 ```
 Expected: Error (no network access)
 
-## 🌐 Web UI
+##  Web UI
 
 Access the web interface at `http://localhost:5000` after starting the API.
 
@@ -229,7 +229,7 @@ Features:
 - Output display area
 - Error handling with clear messages
 
-## 🏗️ Project Structure
+##  Project Structure
 
 ```
 api/
@@ -247,7 +247,7 @@ api/
 └── DOCUMENTATION.md      # Detailed project documentation
 ```
 
-## 🔧 Configuration
+##  Configuration
 
 Edit the following parameters in `executor.py`:
 
@@ -257,7 +257,7 @@ MEMORY_LIMIT = "128m"     # Container memory limit
 MAX_CODE_LENGTH = 5000    # Maximum characters allowed
 ```
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Common Issues
 
@@ -283,7 +283,7 @@ sudo systemctl start docker  # Linux
 - Check memory limits
 - Verify Docker has sufficient resources allocated
 
-## 📚 What I Learned
+##  What I Learned
 
 ### Docker Security Insights
 
@@ -302,17 +302,17 @@ sudo systemctl start docker  # Linux
 
 ### Security Best Practices Implemented
 
-✅ Never run containers as root (use `--user`)
-✅ Always set resource limits (CPU, memory, PIDs)
-✅ Disable network unless absolutely required
-✅ Use read-only filesystems when possible
-✅ Set execution timeouts
-✅ Validate and sanitize all inputs
-✅ Log all executions for monitoring
+ Never run containers as root (use `--user`)
+ Always set resource limits (CPU, memory, PIDs)
+ Disable network unless absolutely required
+ Use read-only filesystems when possible
+ Set execution timeouts
+Validate and sanitize all inputs
+Log all executions for monitoring
 
-## 🚨 Security Warnings
+##  Security Warnings
 
-⚠️ **This is a learning project!** For production use, consider:
+**This is a learning project!** For production use, consider:
 
 - Additional sandboxing (gVisor, Firecracker)
 - Rate limiting per user
@@ -322,7 +322,7 @@ sudo systemctl start docker  # Linux
 - Proper authentication/authorization
 - HTTPS/TLS for API endpoints
 
-## 🤝 Contributing
+##  Contributing
 
 Feel free to submit issues and enhancement requests!
 
@@ -330,13 +330,13 @@ Feel free to submit issues and enhancement requests!
 
 This project is for educational purposes.
 
-## 👨‍💻 Author
+##  Author
 
 Created as a learning project to understand Docker security and code execution sandboxing.
 
 ---
 
-**⚡ Quick Commands Reference:**
+** Quick Commands Reference:**
 
 ```bash
 # Start API
