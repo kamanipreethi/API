@@ -23,12 +23,12 @@ Build a secure REST API that allows users to submit Python code and execute it s
 - Automated code testing systems
 
 ### Core Requirements
-✅ Accept Python code via API endpoint
-✅ Execute code in isolated Docker containers
-✅ Return execution output to users
-✅ Implement security measures against malicious code
-✅ Provide clear error messages
-✅ Create user-friendly web interface
+ Accept Python code via API endpoint
+ Execute code in isolated Docker containers
+ Return execution output to users
+ Implement security measures against malicious code
+ Provide clear error messages
+ Create user-friendly web interface
 
 ---
 
@@ -311,14 +311,14 @@ with open("/etc/passwd") as f:
     print(f.read())
 ```
 
-**Result:** ✅ **Works** - Can read container's `/etc/passwd`
+**Result:**  **Works** - Can read container's `/etc/passwd`
 
 **Why?** The container has its own filesystem. Reading `/etc/passwd` shows the container's users, not the host system's users. This is **safe** because:
 - Container filesystem is isolated from host
 - Even if attacker reads all files, they only see container files
 - Container is destroyed after execution
 
-**Security Impact:** 🟢 **Low Risk**
+**Security Impact:**  **Low Risk**
 
 ---
 
@@ -331,11 +331,11 @@ with open("/tmp/test.txt", "w") as f:
 print("File written successfully")
 ```
 
-**Result (without --read-only):** ✅ **Works** - File is written
+**Result (without --read-only):** **Works** - File is written
 
 **Why?** Containers have writable filesystems by default.
 
-**Security Impact:** 🟡 **Medium Risk**
+**Security Impact:**  **Medium Risk**
 - Could fill up disk space
 - Could create files that persist between executions
 - Could be used for data exfiltration timing attacks
@@ -352,13 +352,13 @@ with open("/tmp/test.txt", "w") as f:
     f.write("hacked!")
 ```
 
-**Result (with --read-only):** ❌ **Fails**
+**Result (with --read-only):**  **Fails**
 
 **Error:** `OSError: [Errno 30] Read-only file system`
 
 **Why?** The `--read-only` flag makes the entire container filesystem read-only.
 
-**Security Impact:** 🟢 **Risk Mitigated**
+**Security Impact:**  **Risk Mitigated**
 
 **Note:** We added `--tmpfs /tmp:rw,size=10m` to allow writing to `/tmp` with a size limit, as some Python operations need it.
 
@@ -382,7 +382,7 @@ while True:
 - CPU bomb: Stopped by timeout (10 seconds)
 - Memory bomb: Stopped by memory limit (128MB)
 
-**Security Impact:** 🟢 **Protected**
+**Security Impact:**  **Protected**
 
 ---
 
@@ -390,13 +390,13 @@ while True:
 
 | Attack Vector | Protection | Effectiveness |
 |---------------|------------|---------------|
-| Infinite loops | `--timeout 10` | ✅ High |
-| Memory exhaustion | `--memory 128m` | ✅ High |
-| Network attacks | `--network none` | ✅ High |
-| File system writes | `--read-only` | ✅ High |
-| CPU exhaustion | Timeout + OS limits | ✅ Medium |
-| Fork bombs | (Not implemented) | ❌ Low |
-| Privilege escalation | Container isolation | ✅ Medium |
+| Infinite loops | `--timeout 10` |  High |
+| Memory exhaustion | `--memory 128m` |  High |
+| Network attacks | `--network none` |  High |
+| File system writes | `--read-only` |  High |
+| CPU exhaustion | Timeout + OS limits |  Medium |
+| Fork bombs | (Not implemented) |  Low |
+| Privilege escalation | Container isolation |  Medium |
 
 ---
 
@@ -406,32 +406,32 @@ while True:
 
 | Test Case | Input | Expected Output | Result |
 |-----------|-------|-----------------|--------|
-| Basic print | `print("Hello")` | `Hello` | ✅ Pass |
-| Math operations | `print(2 + 2)` | `4` | ✅ Pass |
-| Variables | `x = 5\nprint(x)` | `5` | ✅ Pass |
-| Loops | `for i in range(3): print(i)` | `0\n1\n2` | ✅ Pass |
-| Functions | `def f(): return 42\nprint(f())` | `42` | ✅ Pass |
-| Lists | `print([1,2,3])` | `[1, 2, 3]` | ✅ Pass |
+| Basic print | `print("Hello")` | `Hello` |  Pass |
+| Math operations | `print(2 + 2)` | `4` |  Pass |
+| Variables | `x = 5\nprint(x)` | `5` |  Pass |
+| Loops | `for i in range(3): print(i)` | `0\n1\n2` |  Pass |
+| Functions | `def f(): return 42\nprint(f())` | `42` | Pass |
+| Lists | `print([1,2,3])` | `[1, 2, 3]` |  Pass |
 
 ### Security Tests
 
 | Test Case | Attack Type | Expected Behavior | Result |
 |-----------|-------------|-------------------|--------|
-| `while True: pass` | Infinite loop | Timeout after 10s | ✅ Pass |
-| `x = "a" * 10**9` | Memory bomb | Memory limit error | ✅ Pass |
-| `import requests; requests.get(...)` | Network access | Connection error | ✅ Pass |
-| `open("/tmp/x", "w").write("y")` | File write | OSError (read-only) | ✅ Pass |
-| Code > 5000 chars | Input validation | Rejection | ✅ Pass |
+| `while True: pass` | Infinite loop | Timeout after 10s |  Pass |
+| `x = "a" * 10**9` | Memory bomb | Memory limit error |  Pass |
+| `import requests; requests.get(...)` | Network access | Connection error |  Pass |
+| `open("/tmp/x", "w").write("y")` | File write | OSError (read-only) |  Pass |
+| Code > 5000 chars | Input validation | Rejection |  Pass |
 
 ### Error Handling Tests
 
 | Test Case | Expected Error Message | Result |
 |-----------|------------------------|--------|
-| Syntax error | Python syntax error | ✅ Clear |
-| Timeout | "Execution timed out after 10 seconds" | ✅ Clear |
-| Empty code | Executes successfully (no output) | ✅ OK |
-| Invalid JSON | 400 Bad Request | ✅ Clear |
-| Code too long | "Code exceeds maximum length" | ✅ Clear |
+| Syntax error | Python syntax error |  Clear |
+| Timeout | "Execution timed out after 10 seconds" |  Clear |
+| Empty code | Executes successfully (no output) |  OK |
+| Invalid JSON | 400 Bad Request |  Clear |
+| Code too long | "Code exceeds maximum length" |  Clear |
 
 ---
 
@@ -463,11 +463,11 @@ No single security measure is perfect. We combine:
 | `--user` | Run as non-root | Better security, may break some code |
 
 #### 4. **What Docker CANNOT Protect Against**
-- ❌ Kernel exploits (containers share kernel)
-- ❌ CPU timing attacks
-- ❌ Spectre/Meltdown vulnerabilities
-- ❌ Container escape vulnerabilities
-- ❌ Side-channel attacks
+-  Kernel exploits (containers share kernel)
+-  CPU timing attacks
+-  Spectre/Meltdown vulnerabilities
+-  Container escape vulnerabilities
+-  Side-channel attacks
 
 #### 5. **Container Overhead**
 - Starting a container takes 1-2 seconds
@@ -476,27 +476,27 @@ No single security measure is perfect. We combine:
 
 ### What Worked Well
 
-✅ Docker made isolation relatively simple
-✅ Resource limits were easy to implement
-✅ Error messages from Python are helpful
-✅ Flask made API development fast
-✅ Testing was straightforward
+ Docker made isolation relatively simple
+ Resource limits were easy to implement
+ Error messages from Python are helpful
+ Flask made API development fast
+ Testing was straightforward
 
 ### What Was Challenging
 
-⚠️ Finding the right balance between security and usability
-⚠️ Handling edge cases (syntax errors, imports, etc.)
-⚠️ Docker on Windows has some quirks
-⚠️ Cleaning up temporary files properly
-⚠️ Making error messages user-friendly
+ Finding the right balance between security and usability
+ Handling edge cases (syntax errors, imports, etc.)
+ Docker on Windows has some quirks
+ Cleaning up temporary files properly
+ Making error messages user-friendly
 
 ### Surprising Discoveries
 
-💡 Container startup is slower than expected
-💡 Reading `/etc/passwd` is safe (it's the container's, not host's)
-💡 Some Python libraries don't work with read-only filesystems
-💡 Network isolation breaks even DNS lookups
-💡 Memory limits can cause cryptic errors
+ Container startup is slower than expected
+ Reading `/etc/passwd` is safe (it's the container's, not host's)
+ Some Python libraries don't work with read-only filesystems
+ Network isolation breaks even DNS lookups
+ Memory limits can cause cryptic errors
 
 ---
 
@@ -547,11 +547,11 @@ No single security measure is perfect. We combine:
 
 This project successfully demonstrates:
 
-✅ How to execute untrusted code safely using Docker
-✅ Implementation of multiple security layers
-✅ Trade-offs between security and functionality
-✅ Practical Docker security features
-✅ Building a complete API with frontend
+ How to execute untrusted code safely using Docker
+ Implementation of multiple security layers
+ Trade-offs between security and functionality
+ Practical Docker security features
+ Building a complete API with frontend
 
 ### Key Takeaways
 
